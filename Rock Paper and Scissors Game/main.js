@@ -4,82 +4,78 @@ function getComputerChoice() {
   if (computer === 1) return "scissors";
   return "paper";
 }
+const userChoice = document.querySelectorAll("button");
+userChoice.forEach((button) => {
+  button.addEventListener("click", function (event) {
+    let choice = event.target.id;
+    let computerChoice = getComputerChoice();
+    let result = determineWinner(choice, computerChoice);
+    updateUi(computerChoice, choice, result);
+    updateScore(result);
+    showScore();
+    declareFinalWinner();
+  });
+});
 
-function getHumanChoice() {
-  return prompt("Enter rock paper or scissors").trim().toLowerCase();
-}
-
-function playRound(humanChoice, computerChoice) {
-  if (humanChoice === computerChoice) {
+function determineWinner(choice, computerChoice) {
+  let userChoice = choice;
+  if (userChoice === computerChoice) {
     return "tie";
   }
   if (
-    (humanChoice === "rock" && computerChoice === "paper") ||
-    (humanChoice === "paper" && computerChoice === "scissors") ||
-    (humanChoice === "scissors" && computerChoice === "rock")
+    (userChoice === "rock" && computerChoice === "paper") ||
+    (userChoice === "paper" && computerChoice === "scissors") ||
+    (userChoice === "scissors" && computerChoice === "rock")
   ) {
     return "computer";
   }
   return "human";
 }
-let humanScore = 0;
+let userScore = 0;
 let computerScore = 0;
 
-function playGame() {
-  for (let i = 1; i <= 5; i++) {
-    let humanSelection = getHumanChoice();
-    let computerSelection = getComputerChoice();
-    let round = playRound(humanSelection, computerSelection);
-
-    if (round === "tie") {
-      console.log(
-        `you picked(${humanSelection}) and computer picked (${computerSelection}) its a tie game`,
-      );
-      showScore();
-    }
-    if (round === "computer") {
-      console.log(
-        `you picked (${humanSelection}) and computer picked (${computerSelection}) computer wins`,
-      );
-      computerScore++;
-      showScore();
-    }
-    if (round === "human") {
-      console.log(
-        `you picked (${humanSelection}) and computer picked (${computerSelection}) you win!`,
-      );
-      humanScore++;
-      showScore();
-    }
+function updateUi(comChoice, humChoice, result) {
+  let displayComChoice = document.querySelector("#com-result");
+  let displayHumChoice = document.querySelector("#hum-result");
+  let displayResult = document.querySelector("#result");
+  if (result === "tie") {
+    displayComChoice.textContent = `computer picked ${comChoice}`;
+    displayHumChoice.textContent = `you picked ${humChoice}`;
+    displayResult.textContent = `Its a tie`;
   }
-  declareFinalWinner();
+  if (result === "computer") {
+    displayComChoice.textContent = `computer picked ${comChoice}`;
+    displayHumChoice.textContent = `you picked ${humChoice}`;
+    displayResult.textContent = `computer wins`;
+  }
+  if (result === "human") {
+    displayComChoice.textContent = `computer picked ${comChoice}`;
+    displayHumChoice.textContent = `you picked ${humChoice}`;
+    displayResult.textContent = `you win!!`;
+  }
+}
+/* declareFinalWinner(); */
+function updateScore(scoreResult) {
+  if (scoreResult === "computer") {
+    computerScore++;
+  }
+  if (scoreResult === "human") {
+    userScore++;
+  }
 }
 function showScore() {
-  if (humanScore > computerScore) {
-    return console.log(
-      `computer score - ${computerScore} and your score - ${humanScore}`,
-    );
-  } else if (computerScore > humanScore) {
-    return console.log(
-      `computer score - ${computerScore} and your score - ${humanScore}`,
-    );
-  } else
-    return console.log(
-      `computer score - ${computerScore} and your score - ${humanScore}`,
-    );
+  let displayHumScore = document.querySelector("#hum-score");
+  let displayComScore = document.querySelector("#com-score");
+  let comScore = computerScore;
+  let humScore = userScore;
+
+  displayComScore.textContent = ` computer Score = ${comScore}`;
+  displayHumScore.textContent = `your score = ${humScore}`;
 }
 function declareFinalWinner() {
-  if (computerScore > humanScore) {
-    return console.log(
-      `computer Final score - ${computerScore} and your Final score - ${humanScore} computer wins`,
-    );
-  } else if (humanScore > computerScore) {
-    return console.log(
-      `computer Final score - ${computerScore} and your Final score - ${humanScore} you win`,
-    );
-  } else
-    return console.log(
-      `computer Final score - ${computerScore} and your Final score - ${humanScore} its a tie game`,
-    );
+  let finalWinner = document.querySelector("#final-winner");
+  if (computerScore === 5 || userScore === 5) {
+    finalWinner.textContent = `Final score: You - ${userScore} and computer - ${computerScore}\n
+    Thank you for Playing `;
+  }
 }
-playGame();
