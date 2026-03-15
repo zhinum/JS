@@ -1,0 +1,12 @@
+.form-button {
+  margin-bottom: 1rem;
+  padding: 8px;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  padding: 16px;
+  text-align: center;
+}
