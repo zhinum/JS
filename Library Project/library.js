@@ -41,33 +41,37 @@ function renderBooks() {
     const tableRead = document.createElement("td");
     const tableAction = document.createElement("td");
     const deleteButton = document.createElement("button");
-    deleteButton.dataset.id = book.id;
-    deleteButton.addEventListener("click", (e) => {
-      const bookID = e.currentTarget.dataset.id;
-      deleteBook(bookID);
-      clearTable();
-      renderBooks();
-    });
+    const toogleButtton = document.createElement("button");
+    toogleButtton.classList.add("btn-toogle");
+    toogleButtton.setAttribute("style", "padding:8px");
     tableId.textContent = book.id;
     tableTitle.textContent = book.title;
     tableAuthor.textContent = book.author;
     tablePages.textContent = book.pages;
-    tableRead.textContent = book.read;
+    tableRead.textContent = book.read ? "Yes" : "No";
     deleteButton.textContent = "Delete";
+    deleteButton.classList.add("btn-delete");
     tableRow.appendChild(tableId);
     tableRow.appendChild(tableTitle);
     tableRow.appendChild(tableAuthor);
     tableRow.appendChild(tablePages);
     tableRow.appendChild(tableRead);
+    tableRead.appendChild(toogleButtton);
     tableAction.appendChild(deleteButton);
     tableRow.appendChild(tableAction);
 
     tableBody.appendChild(tableRow);
+    tableRow.dataset.id = book.id;
   }
 }
 function deleteBook(bookid) {
   library = library.filter((book) => book.id !== bookid);
   return library;
+}
+function toogleRead(bookid) {
+  const book = library.find((book) => book.id === bookid);
+  book.read = !book.read;
+  return book;
 }
 function displayForm() {
   dialog.show();
@@ -98,7 +102,19 @@ formButton.addEventListener("click", () => {
 submitButton.addEventListener("click", () => {
   dialog.close();
 });
+tableBody.addEventListener("click", (e) => {
+  const row = e.target.closest("tr");
+  const bookID = row.dataset.id;
+  if (e.target.closest(".btn-delete")) {
+    deleteBook(bookID);
+  }
+  if (e.target.closest(".btn-toogle")) {
+    toogleRead(bookID);
+  }
 
+  clearTable();
+  renderBooks();
+});
 // practice books
 const book1 = new Book("Return", "Prince Onah", 469, true);
 storeBook(book1);
