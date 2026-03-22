@@ -1,3 +1,10 @@
+body {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
 .container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -5,5 +12,5 @@
 }
 .cell {
   border: 1px solid black;
-  padding: 2rem;
+  padding: 4rem;
 }

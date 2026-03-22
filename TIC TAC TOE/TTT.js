@@ -120,7 +120,7 @@ const uiControl = (function () {
     const resetButton = document.querySelector(".reset-button");
 
     resetButton.addEventListener("click", () => {
-      gameOver = false;
+      isGameOver = false;
       const newBoard = gameBoard.getBoard();
       for (let i = 0; i < newBoard.length; i++) {
         newBoard[i] = "";
@@ -136,9 +136,9 @@ const uiControl = (function () {
     winContainer.innerHTML = "";
     const winner = document.createElement("div");
     if (string === "X") {
-      winner.textContent = `${gameControl.playerOne.name} wins`;
+      winner.textContent = `${gameControl.playerOne.name}  X wins`;
     } else if (string === "O") {
-      winner.textContent = `${gameControl.playerTwo.name} wins`;
+      winner.textContent = `${gameControl.playerTwo.name}  O wins`;
     }
     winContainer.appendChild(winner);
   }
