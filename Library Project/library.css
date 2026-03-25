@@ -1,12 +1,9 @@
-.form-button {
-  margin-bottom: 1rem;
-  padding: 8px;
+.Grid-container {
+  display: flex;
+  gap: 8px;
+  padding: 2rem;
 }
-
-table,
-th,
-td {
+.book-card {
   border: 1px solid black;
-  padding: 16px;
-  text-align: center;
+  padding: 1rem;
 }
